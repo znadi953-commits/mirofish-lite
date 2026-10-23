@@ -159,6 +159,13 @@
     .honest { grid-template-columns:1fr; text-align:center; }
     .float-chip { display:none; }
   }
+  .ic{width:24px;height:24px;stroke:#d4af37;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;display:block}
+  .ic-dark{stroke:#0b0b0f}
+  .ic-inline{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;margin-right:7px;display:inline-block}
+  .mock-title .ic{width:15px;height:15px;display:inline-block;vertical-align:-2px;margin-right:6px;stroke:#9d9989}
+  .honest .big .ic{width:52px;height:52px;stroke-width:1.5}
+  .card .ico .ic, .step .ico .ic{width:25px;height:25px}
+  .logo-mark .ic{width:19px;height:19px}
 </style>
 </head>
 <body>
@@ -166,7 +173,7 @@
 <header id="hdr">
   <nav>
     <div class="logo">
-      <div class="logo-mark">🐟</div>
+      <div class="logo-mark"><svg class="ic ic-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1 0-11.86"/><path d="M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33"/><circle cx="15.5" cy="11.5" r="0.5" fill="currentColor"/></svg></div>
       <div>
         <div><span class="gold">MIROFISH</span> LITE</div>
       </div>
@@ -198,7 +205,7 @@
         <h1>Simulez votre marché<br><span class="gold">avant de le lancer.</span></h1>
         <p class="sub">Des dizaines d'acheteurs IA débattent de votre produit, de votre prix et de vos accroches — comme sur un vrai forum. Vous récupérez le rapport complet en 5 minutes.</p>
         <div class="cta">
-          <a class="btn btn-gold" href="app.html">✨ Essai gratuit — 3 simulations</a>
+          <a class="btn btn-gold" href="app.html"><svg class="ic-inline" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg> Essai gratuit — 3 simulations</a>
           <a class="btn btn-ghost" href="#exemple">Voir un exemple réel</a>
         </div>
         <div class="hero-trust">
@@ -212,7 +219,7 @@
         <div class="float-chip fc2">👨‍💻 Freelance, 31 ans — Casablanca</div>
         <div class="mock">
           <div class="mock-head">
-            <div class="mock-title">📊 Rapport de simulation — votre produit</div>
+            <div class="mock-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg> Rapport de simulation — votre produit</div>
             <div class="mock-live"><span class="pulse" style="background:#7fd48a"></span> LIVE</div>
           </div>
           <div class="stat-row">
@@ -279,12 +286,12 @@
     <h2 class="sec reveal">Pourquoi <span class="gold">MiroFish Lite</span> ?</h2>
     <p class="sec-sub reveal">Arrêtez de lancer à l'aveugle. Testez d'abord, investissez ensuite.</p>
     <div class="grid3">
-      <div class="card reveal"><div class="ico">👥</div><h3>Panel d'acheteurs IA</h3><p>Des dizaines d'agents (sceptiques, pressés, freelances, étudiants…) construits à partir de VOTRE document produit.</p></div>
-      <div class="card reveal"><div class="ico">🎭</div><h3>Débat social réaliste</h3><p>Ils commentent, se répondent, changent d'avis round après round — vous voyez l'opinion évoluer en direct.</p></div>
-      <div class="card reveal"><div class="ico">📊</div><h3>Chiffres calculés</h3><p>Stances, objections, intentions d'achat : comptés par le moteur, jamais inventés par le modèle.</p></div>
-      <div class="card reveal"><div class="ico">✍️</div><h3>Test d'accroches</h3><p>Soumettez votre texte publicitaire : le rapport dit exactement ce qui convainc et ce qui repousse.</p></div>
-      <div class="card reveal"><div class="ico">🔮</div><h3>Scénarios à 6 mois</h3><p>Bear / Base / Bull avec les indicateurs à surveiller — décidez sur des signaux, pas des espoirs.</p></div>
-      <div class="card reveal"><div class="ico">⚡</div><h3>Rapport prêt à agir</h3><p>Interviews des agents, posts marquants, objections classées, plan d'actions priorisé. Export Markdown.</p></div>
+      <div class="card reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h3>Panel d'acheteurs IA</h3><p>Des dizaines d'agents (sceptiques, pressés, freelances, étudiants…) construits à partir de VOTRE document produit.</p></div>
+      <div class="card reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg></div><h3>Débat social réaliste</h3><p>Ils commentent, se répondent, changent d'avis round après round — vous voyez l'opinion évoluer en direct.</p></div>
+      <div class="card reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></div><h3>Chiffres calculés</h3><p>Stances, objections, intentions d'achat : comptés par le moteur, jamais inventés par le modèle.</p></div>
+      <div class="card reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><h3>Test d'accroches</h3><p>Soumettez votre texte publicitaire : le rapport dit exactement ce qui convainc et ce qui repousse.</p></div>
+      <div class="card reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div><h3>Scénarios à 6 mois</h3><p>Bear / Base / Bull avec les indicateurs à surveiller — décidez sur des signaux, pas des espoirs.</p></div>
+      <div class="card reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><h3>Rapport prêt à agir</h3><p>Interviews des agents, posts marquants, objections classées, plan d'actions priorisé. Export Markdown.</p></div>
     </div>
   </section>
 
@@ -293,16 +300,16 @@
     <h2 class="sec reveal">Comment ça marche</h2>
     <p class="sec-sub reveal">Aucune installation. Aucune compétence technique.</p>
     <div class="steps">
-      <div class="step reveal"><div class="ico">📄</div><h3>Décrivez votre produit</h3><p>Collez une fiche produit ou utilisez nos modèles inclus (ebook, SaaS, service, formation…).</p></div>
-      <div class="step reveal"><div class="ico">🐟</div><h3>Lancez la simulation</h3><p>Le moteur construit le monde, les acheteurs, les rounds de débat et les interviews.</p></div>
-      <div class="step reveal"><div class="ico">🎯</div><h3>Appliquez le plan</h3><p>Produits à pousser en priorité, objections à traiter, accroches optimisées — prêt à déployer.</p></div>
+      <div class="step reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div><h3>Décrivez votre produit</h3><p>Collez une fiche produit ou utilisez nos modèles inclus (ebook, SaaS, service, formation…).</p></div>
+      <div class="step reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1 0-11.86"/><path d="M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33"/><circle cx="15.5" cy="11.5" r="0.5" fill="currentColor"/></svg></div><h3>Lancez la simulation</h3><p>Le moteur construit le monde, les acheteurs, les rounds de débat et les interviews.</p></div>
+      <div class="step reveal"><div class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><h3>Appliquez le plan</h3><p>Produits à pousser en priorité, objections à traiter, accroches optimisées — prêt à déployer.</p></div>
     </div>
   </section>
 
   <!-- HONNETETE -->
   <section style="padding-top:20px">
     <div class="honest reveal">
-      <div class="big">🛡️</div>
+      <div class="big"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
       <div>
         <h3>On vous dit la vérité : ce sont des scénarios, pas des promesses magiques.</h3>
         <p>MiroFish Lite simule des réactions plausibles pour tester vos idées avant d'investir — c'est un radar, pas une boule de cristal. Aucun outil ne prédit l'avenir à 100%. Nous préférons vous le dire que vous vendre du rêve. Les chiffres de vos rapports sont calculés sur la simulation, et nous l'indiquons clairement dans chaque rapport.</p>
@@ -362,7 +369,7 @@
   <div class="cta-band reveal">
     <h2>Prêt à tester votre prochaine idée ?</h2>
     <p class="sec-sub" style="margin-bottom:30px">3 simulations gratuites. Aucune carte bancaire. Rapport en 5 minutes.</p>
-    <a class="btn btn-gold" href="app.html" style="padding:16px 38px;font-size:16.5px">✨ Commencer gratuitement</a>
+    <a class="btn btn-gold" href="app.html" style="padding:16px 38px;font-size:16.5px"><svg class="ic-inline" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg> Commencer gratuitement</a>
     <p style="margin-top:18px;color:#8a8778;font-size:13px">Paiement sécurisé via Gumroad & Payhip • Résiliable à tout moment</p>
   </div>
 </div>
@@ -370,7 +377,7 @@
 <footer>
   <div class="wrap fgrid">
     <div>
-      <div class="logo" style="margin-bottom:10px"><div class="logo-mark">🐟</div><div><span class="gold">MIROFISH</span> LITE</div><span class="badge">BY LUXE DIGITAL</span></div>
+      <div class="logo" style="margin-bottom:10px"><div class="logo-mark"><svg class="ic ic-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1 0-11.86"/><path d="M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33"/><circle cx="15.5" cy="11.5" r="0.5" fill="currentColor"/></svg></div><div><span class="gold">MIROFISH</span> LITE</div><span class="badge">BY LUXE DIGITAL</span></div>
       <p>Produits digitaux premium IA & Business — 2026</p>
     </div>
     <div>
