@@ -160,8 +160,9 @@ export function makeLLM({ baseUrl, apiKey, model, concurrency = DEFAULTS.concurr
 
   llm.json = async (messages, o = {}) => {
     for (let i = 0; ; i++) {
-      const text = await llm(messages, { ...o, json: true });
-      try { return parseJSON(text); } catch (e) { if (i >= 1) throw new Error('Model returned invalid JSON twice'); }
+      const msgs = i === 0 ? messages : [...messages, { role: 'user', content: 'Your previous reply was not valid JSON. Return ONLY the raw JSON object now: no markdown fences, no commentary, no extra text.' }];
+      const text = await llm(msgs, { ...o, json: true });
+      try { if (!String(text || '').trim()) throw new Error('empty content'); return parseJSON(text); } catch (e) { if (i >= 3) throw new Error('Model returned invalid JSON after 4 attempts'); }
     }
   };
   return llm;
@@ -183,7 +184,7 @@ Build the world to simulate. Return JSON:
  "tensions": [str],      // the 4-6 sharpest trade-offs buyers will weigh
  "events": [str]         // exactly ${rounds} short events, one per round, drawn from the source's scenario variables (pricing change, outage, competitor move, privacy news, launch...). Round 1 should be the pitch/outreach landing.
 }${language ? `\nWrite all string values in ${language}.` : ''}`;
-  const w = await llm.json([{ role: 'system', content: SYS }, { role: 'user', content: user }], { maxTokens: 2200, temperature: 0.4 });
+  const w = await llm.json([{ role: 'system', content: SYS }, { role: 'user', content: user }], { maxTokens: 3500, temperature: 0.4 });
   w.segments = (w.segments || []).slice(0, 6);
   const tot = w.segments.reduce((t, s) => t + (Number(s.share) > 0 ? Number(s.share) : 0), 0);
   w.segments.forEach((s) => { s.share = tot > 0 && Number(s.share) > 0 ? Number(s.share) / tot : 1 / w.segments.length; });
@@ -326,7 +327,7 @@ Product: ${world.product?.name} — ${world.product?.summary}
 Answer as yourself, first person, 1-2 sentences each, no statistics.
 Return JSON: {"answers":[str,str,str]} answering in order: ${qs.map((q, i) => `${i + 1}) ${q}`).join(' ')}${language ? `\nWrite in ${language}.` : ''}`;
     try {
-      const d = await llm.json([{ role: 'system', content: SYS }, { role: 'user', content: user }], { maxTokens: 700, temperature: 0.8 });
+      const d = await llm.json([{ role: 'system', content: SYS }, { role: 'user', content: user }], { maxTokens: 1500, temperature: 0.8 });
       return { agent: a, questions: qs, answers: d.answers || [] };
     } catch { return { agent: a, questions: qs, answers: [] }; }
   }));
@@ -489,15 +490,15 @@ export async function writeReport(llm, world, agents, sim, interviews, stats, { 
 
   const chapterJobs = CHAPTERS.map(([title, brief]) =>
     {
-      const ask = () => llm([{ role: 'system', content: SYS }, { role: 'user', content: `${ctx}\n\nCHAPTER: ${title}\nBRIEF: ${brief}\n\n${rules}` }], { maxTokens: 1100, temperature: 0.5 });
+      const ask = () => llm([{ role: 'system', content: SYS }, { role: 'user', content: `${ctx}\n\nCHAPTER: ${title}\nBRIEF: ${brief}\n\n${rules}` }], { maxTokens: 1800, temperature: 0.5 });
       return ask().catch((e) => { if (e.fatal) throw e; return ask(); })
         .catch((e) => { if (e.fatal) throw e; return `_This chapter could not be generated: ${e.message}_`; });
     });
 
-  const headJob = llm.json([{ role: 'system', content: SYS }, { role: 'user', content: `${ctx}\n\nReturn JSON: {"title":"a sharp finding as report title (not just the product name)","summary":"one sentence core predicted finding","verdict_reason":"one sentence tied to the statistics"}${language ? ` Write in ${language}.` : ''}` }], { maxTokens: 500, temperature: 0.3 })
+  const headJob = llm.json([{ role: 'system', content: SYS }, { role: 'user', content: `${ctx}\n\nReturn JSON: {"title":"a sharp finding as report title (not just the product name)","summary":"one sentence core predicted finding","verdict_reason":"one sentence tied to the statistics"}${language ? ` Write in ${language}.` : ''}` }], { maxTokens: 1200, temperature: 0.3 })
     .catch(() => ({ title: `${world.product?.name} — Simulation Report`, summary: '', verdict_reason: '' }));
 
-  const summaryJob = llm.json([{ role: 'system', content: SYS }, { role: 'user', content: `${ctx}\n\nWrite the executive summary for a busy manager who will not read the rest. Plain, simple language, no jargon. Return JSON: {"bottom_line":"2-3 sentences: what the simulation suggests about this product","who_will_buy":["max 3 short items"],"who_will_resist":["max 3 short items, with the reason"],"biggest_risk":"one sentence","do_first":["exactly 3 concrete next steps"]}. No invented numbers.${language ? ` Write in ${language}.` : ''}` }], { maxTokens: 900, temperature: 0.3 })
+  const summaryJob = llm.json([{ role: 'system', content: SYS }, { role: 'user', content: `${ctx}\n\nWrite the executive summary for a busy manager who will not read the rest. Plain, simple language, no jargon. Return JSON: {"bottom_line":"2-3 sentences: what the simulation suggests about this product","who_will_buy":["max 3 short items"],"who_will_resist":["max 3 short items, with the reason"],"biggest_risk":"one sentence","do_first":["exactly 3 concrete next steps"]}. No invented numbers.${language ? ` Write in ${language}.` : ''}` }], { maxTokens: 1800, temperature: 0.3 })
     .catch((e) => { if (e.fatal) throw e; return null; });
 
   const [head, summary, ...chapters] = await Promise.all([headJob, summaryJob, ...chapterJobs]);
