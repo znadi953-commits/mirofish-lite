@@ -4,7 +4,7 @@ const HIST_KEY = 'mfl.history';
 
 const $ = (id) => document.getElementById(id);
 const PROVIDERS = [
-  { id: 'gemini', name: 'Google Gemini (free API key)', base: 'https://generativelanguage.googleapis.com/v1beta/openai', model: 'gemini-3.5-flash-lite' },
+  { id: 'gemini', name: 'Google Gemini (free API key)', base: 'https://generativelanguage.googleapis.com/v1beta/openai', model: 'gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-3.1-flash-lite-preview,gemini-3-flash-preview' },
   { id: 'openai', name: 'OpenAI', base: 'https://api.openai.com/v1', model: 'gpt-4o-mini' },
   { id: 'groq', name: 'Groq', base: 'https://api.groq.com/openai/v1', model: 'openai/gpt-oss-120b' },
   { id: 'openrouter', name: 'OpenRouter', base: 'https://openrouter.ai/api/v1', model: 'openai/gpt-4o-mini' },
@@ -81,7 +81,11 @@ async function loadModels(quiet) {
     const list = $('modelList'); list.replaceChildren(...models.map((m) => new Option(m, m)));
     const known = models.includes($('model').value.trim());
     const preferred = ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3-flash-preview', 'gpt-4o-mini', 'gpt-oss-120b', 'llama-3.3-70b', 'deepseek-chat'];
-    if (!known && models.length) $('model').value = preferred.map((p) => models.find((m) => m.includes(p))).find(Boolean) || models[0];
+    if (!known && models.length) {
+      const pool = preferred.map((p) => models.find((m) => m.includes(p))).filter(Boolean);
+      const geminiPool = pool.filter((m) => /gemini/i.test(m));
+      $('model').value = (geminiPool.length > 1 ? geminiPool : (pool.length ? pool : [models[0]])).join(',');
+    }
     out.className = 'small ok'; out.textContent = `${models.length} models available to your key. Using ${$('model').value}.`;
   } catch (e) { out.className = 'small err'; out.textContent = `Could not list models: ${e.message}`; }
 }
@@ -455,7 +459,7 @@ $('run').addEventListener('click', async () => {
   } catch (e) {
     if (state.cancelled) return;
     show('setup');
-    const msg = /does not exist|do not have access|model_not_found/i.test(e.message) ? `${e.message} Click "Load my models" in step 1 to pick a model your key can use.` : /401|incorrect api key|invalid api key|unauthor/i.test(e.message) ? 'The provider rejected your API key. Check it in step 1 and use "Test connection".' : e.message;
+    const msg = /quota|429|rate or quota/i.test(e.message) ? `⚠️ Quota Google gratuit atteint ou trop de requêtes en même temps. Solutions : (1) attendez 2-3 minutes et réessayez, (2) mettez "Parallel calls" à 1-2 dans Advanced settings, (3) créez votre PROPRE clé GRATUITE sur aistudio.google.com/apikey (2 minutes) — chaque clé a son propre quota. Réinitialisation quotidienne ~9h (heure du Maroc).` : /does not exist|do not have access|model_not_found/i.test(e.message) ? `${e.message} Click "Load my models" in step 1 to pick a model your key can use.` : /401|incorrect api key|invalid api key|unauthor/i.test(e.message) ? 'The provider rejected your API key. Check it in step 1 and use "Test connection".' : e.message;
     showError(`Run failed: ${msg}`);
   } finally { clearInterval(timer); }
 });
