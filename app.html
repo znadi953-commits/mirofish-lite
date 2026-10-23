@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace Membres — MiroFish Lite | LUXE DIGITAL</title>
+<meta name="description" content="Paste your own AI API key and product documents. MiroFish Lite simulates how buyers react and writes a plain-language report in minutes.">
+<meta name="theme-color" content="#1a73e8">
+<meta property="og:title" content="MiroFish Lite">
+<meta property="og:description" content="Simulate how buyers will react to your product. Bring your own API key.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a73e8'/%3E%3Cpath d='M16 7a9 9 0 1 0 0 18V7z' fill='white'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="gate" style="position:fixed;inset:0;z-index:9999;background:rgba(11,11,15,.97);display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif;">
+  <div style="background:#121218;border:1px solid rgba(212,175,55,.3);border-radius:18px;padding:38px 32px;max-width:400px;width:calc(100% - 40px);text-align:center;">
+    <div style="font-size:34px;margin-bottom:10px">🔒</div>
+    <h2 style="color:#f0ead6;font-size:21px;margin-bottom:8px">Espace membres</h2>
+    <p style="color:#9d9989;font-size:14px;margin-bottom:22px">Entrez votre code d'accès reçu après votre abonnement.</p>
+    <input id="gatePwd" type="password" placeholder="Code d'accès" style="width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(212,175,55,.35);background:#0b0b0f;color:#e8e6df;font-size:15px;outline:none;text-align:center;letter-spacing:1px;">
+    <button id="gateBtn" style="width:100%;margin-top:14px;padding:13px;border-radius:10px;border:0;background:linear-gradient(135deg,#f5d97b,#d4af37);color:#0b0b0f;font-weight:700;font-size:15px;cursor:pointer;">Débloquer l'accès</button>
+    <p id="gateErr" style="color:#e66;font-size:13px;min-height:18px;margin-top:10px"></p>
+    <p style="margin-top:16px;font-size:12.5px"><a href="index.html" style="color:#d4af37;text-decoration:none">← Découvrir l'offre</a> &nbsp;•&nbsp; <span style="color:#77746a">Pas encore membre ?</span></p>
+  </div>
+</div>
+<script type="module">
+const HASH = "801cc4651b6ff64b7d8c7d3e469cca242349dba4d7ed98dd5069167d613782d8";
+const gate = document.getElementById('gate');
+async function sha(s) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+function unlock() { gate.remove(); document.documentElement.style.overflow = ''; }
+if (localStorage.getItem('mfl_access') === '1') { unlock(); }
+else {
+  document.documentElement.style.overflow = 'hidden';
+  const go = async () => {
+    const btn = document.getElementById('gateBtn');
+    btn.textContent = 'Vérification…'; btn.disabled = true;
+    const v = document.getElementById('gatePwd').value.trim();
+    if ((await sha(v)) === HASH) { localStorage.setItem('mfl_access', '1'); unlock(); }
+    else {
+      document.getElementById('gateErr').textContent = 'Code invalide. Vérifiez votre e-mail de confirmation.';
+      btn.textContent = 'Débloquer l\'accès'; btn.disabled = false;
+    }
+  };
+  document.getElementById('gateBtn').addEventListener('click', go);
+  document.getElementById('gatePwd').addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
+}
+</script>
+
+<header class="top">
+  <div class="wrap row">
+    <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#1a73e8"/><path d="M16 7a9 9 0 1 0 0 18V7z" fill="#fff"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2"/></svg><span>MiroFish <b>Lite</b></span><span class="badge">Beta</span></div>
+    <span class="grow"></span>
+    <span class="secure"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 1 3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg> Your key is never stored</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="setup">
+    <div class="hero">
+      <p class="eyebrow">Market simulation</p>
+      <h1>Find out how buyers will react, before you launch.</h1>
+      <p class="lead">Build a simulated market from your own documents. AI personas react to your product over several rounds, debate each other and get interviewed. You get a plain-language report with the numbers, the quotes and the next steps.</p>
+      <ol class="how">
+        <li><i><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 14a3 3 0 1 1 2.8-4H21v3h-2v2h-3v-2h-6.2A3 3 0 0 1 7 14z"/></svg></i><b>Connect</b><span>Use your own API key</span></li>
+        <li><i><svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 2h8l6 6v14H6V2zm7 1.5V9h5.5L13 3.5z"/></svg></i><b>Add documents</b><span>Product, customers, pains</span></li>
+        <li><i><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7L8 5z"/></svg></i><b>Run</b><span>2 to 5 minutes, live</span></li>
+        <li><i><svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg></i><b>Share</b><span>PDF, Markdown, HTML</span></li>
+      </ol>
+    </div>
+    <div class="layout">
+    <div class="main">
+    <ol class="steps">
+      <li class="step" id="s1">
+        <h2><span class="n"><span>1</span></span> Connect your model</h2>
+        <p class="muted">Any OpenAI-compatible API. Your key is sent only with your own requests to the model provider through this site's stateless proxy. It is never stored on a server.</p>
+        <div class="grid">
+          <label>Provider
+            <select id="provider"></select>
+          </label>
+          <label>Model
+            <input id="model" list="modelList" placeholder="e.g. gpt-4o-mini" autocomplete="off" spellcheck="false"><datalist id="modelList"></datalist>
+          </label>
+          <label class="span2">Base URL
+            <input id="baseUrl" placeholder="https://api.openai.com/v1" autocomplete="off" spellcheck="false">
+          </label>
+          <label class="span2">API key
+            <input id="apiKey" type="password" placeholder="Paste your API key" autocomplete="off" spellcheck="false">
+          </label>
+        </div>
+        <div class="row gap">
+          <label class="check"><input type="checkbox" id="remember"> Remember key in this browser</label>
+          <span class="grow"></span>
+          <button class="ghost" id="loadModels">Load my models</button>
+          <button class="ghost" id="test">Test connection</button>
+          <span id="testResult" class="small"></span>
+        </div>
+      </li>
+
+      <li class="step" id="s2">
+        <h2><span class="n"><span>2</span></span> Your product documents</h2>
+        <div class="row gap exrow"><span class="small muted">Try an example:</span>
+          <button class="chipbtn" data-ex="luxedigital-all-products">LUXE DIGITAL (16 ebooks)</button>
+          <button class="chipbtn" data-ex="in2peta-2-enterprise-gateway">IN2PETA Enterprise Gateway</button>
+          <button class="chipbtn" data-ex="in2peta-1-coding-plan-individuals">IN2PETA for Individuals</button>
+          <button class="chipbtn" data-ex="in2peta-5-data-annotation">IN2PETA Data Annotation</button></div>
+        <p class="muted">Upload or paste whatever describes the product: description, customers, pain points, pricing notes, positioning. Text, Markdown, CSV, JSON or PDF.</p>
+        <div id="drop" class="drop">
+          <input id="files" type="file" multiple accept=".txt,.md,.markdown,.csv,.json,.pdf" hidden>
+          <span>Drop files here or <a href="#" id="pick">browse</a></span>
+          <div id="fileList" class="chips"></div>
+        </div>
+        <label>Product name <span class="muted">(used to match past runs for calibration)</span>
+          <input id="productName" placeholder="e.g. IN2PETA Enterprise Gateway" autocomplete="off">
+        </label>
+        <label>Or paste text
+          <textarea id="docs" rows="7" placeholder="Describe the product, its ideal customers, their pains, the claims you make..."></textarea>
+        </label>
+        <div class="muted small" id="docCount">0 characters</div>
+      </li>
+
+      <li class="step" id="s3">
+        <h2><span class="n"><span>3</span></span> What do you want to learn?</h2>
+        <label>Scenario question
+          <textarea id="scenario" rows="2">Simulate how the target buyers react to this offering over the next six months: adoption, objections, comparisons with incumbents, pricing sensitivity and word of mouth.</textarea>
+        </label>
+        <label>Outreach message to test <span class="muted">(optional)</span>
+          <textarea id="outreach" rows="3" placeholder="Paste an email, ad or pitch. The report will critique it and suggest a tighter version."></textarea>
+        </label>
+        <div class="scale">
+          <label for="population">How many people should the report cover?</label>
+          <div class="row gap">
+            <input id="population" type="number" min="20" max="100000" value="1000" class="popin">
+            <input id="popSlider" type="range" min="0" max="100" value="50" aria-label="Population size">
+          </div>
+          <div class="row gap presets" id="presets">
+            <button type="button" class="chipbtn" data-pop="20">20</button>
+            <button type="button" class="chipbtn" data-pop="100">100</button>
+            <button type="button" class="chipbtn" data-pop="1000">1,000</button>
+            <button type="button" class="chipbtn" data-pop="10000">10,000</button>
+            <button type="button" class="chipbtn" data-pop="100000">1 lakh (100,000)</button>
+          </div>
+          <label for="depth">AI panel depth <span class="muted">(how many personas your model actually simulates)</span></label>
+          <div class="seg" id="seg" role="radiogroup" aria-label="AI panel depth"></div>
+          <select id="depth" class="vh" tabindex="-1" aria-hidden="true">
+            <option value="auto">Auto (recommended)</option>
+            <option value="12">Light: 12 personas. Free or low-limit keys</option>
+            <option value="24">Standard: 24 personas</option>
+            <option value="48">Deep: 48 personas. Paid key</option>
+            <option value="96">Maximum: 96 personas. High-limit paid key</option>
+          </select>
+          <div id="scaleSummary" class="callout"></div>
+        </div>
+        <label>Real-world results so far <span class="muted">(optional: past campaign results, replies, sales, interviews)</span>
+          <textarea id="evidence" rows="3" placeholder="e.g. Last month we emailed 200 CTOs and 14 replied. Three said price was the blocker."></textarea>
+        </label>
+        <details>
+          <summary>Advanced settings</summary>
+          <div class="grid g4">
+            <label>Rounds <input id="rounds" type="number" min="2" max="5" value="3"></label>
+            <label>Parallel calls <input id="concurrency" type="number" min="1" max="8" value="4"></label>
+            <label>Custom panel size <input id="agents" type="number" min="6" max="120" placeholder="auto"></label>
+            <label>Language <input id="language" placeholder="English"></label>
+          </div>
+          <p class="muted small">The AI panel is the group your model actually simulates. Its results are scaled up to the population, so you can cover 100,000 people without 100,000 model calls. More personas gives tighter ranges but costs more calls. Lower parallel calls if your provider rate-limits you.</p>
+        </details>
+      </li>
+    </ol>
+    </div>
+    <aside class="summary">
+      <div class="card sticky">
+        <h3>Run summary</h3>
+        <ul class="check" id="check">
+          <li id="c1"><i></i>Model connected</li>
+          <li id="c2"><i></i>Documents added</li>
+          <li id="c3"><i></i>Question set</li>
+        </ul>
+        <div id="runHint" class="muted small hint"></div>
+        <button class="primary block" id="run">Run simulation</button>
+        <p class="muted small fine">Results are simulated scenarios, not market data.</p>
+      </div>
+    </aside>
+    </div>
+  </section>
+
+  <section id="learn" class="learn">
+    <details id="learnBox">
+      <summary>Learning &amp; calibration: make predictions better with real results</summary>
+      <p class="muted small">Every run is saved in this browser. After you see what really happened (replies, sign-ups, sales), enter it next to the run. The tool compares prediction with reality and adjusts later projections for the same product. This is calibration, not retraining the AI: it needs real results and stays low-confidence until you have several.</p>
+      <div id="learnList"></div>
+      <div class="row gap"><button class="ghost small" id="expLearn">Export</button><button class="ghost small" id="impLearn">Import</button><button class="ghost small" id="clrLearn">Clear all</button><input id="impFile" type="file" accept=".json" hidden><span id="learnStatus" class="small muted"></span></div>
+    </details>
+  </section>
+
+  <section id="progress" hidden>
+    <div class="row">
+      <h2 class="grow">Simulation running</h2>
+      <button class="ghost" id="cancel">Cancel</button>
+    </div>
+    <div class="pbar"><i id="pfill"></i></div>
+    <div class="row small muted"><span id="pcalls">0 calls done</span><span class="grow"></span><span id="elapsed">0:00</span></div>
+    <ul class="stages" id="stages">
+      <li data-s="world">Understand documents</li>
+      <li data-s="agents">Create agents</li>
+      <li data-s="simulate">Simulate rounds</li>
+      <li data-s="interview">Interview agents</li>
+      <li data-s="report">Write report</li>
+    </ul>
+    <div id="status" class="status"></div>
+    <div id="slow" class="slow" hidden></div>
+    <div class="cols">
+      <div>
+        <h3>Live feed</h3>
+        <div id="feed" class="feed"></div>
+      </div>
+      <div>
+        <h3>Agents</h3>
+        <div id="agentGrid" class="agentGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="row gap noprint toolbar">
+      <h2 class="grow">Report</h2>
+      <button class="ghost" id="copy">Copy Markdown</button>
+      <button class="ghost" id="dlmd">Download .md</button>
+      <button class="ghost" id="dlhtml">Download .html</button>
+      <button class="primary" id="print">Save as PDF</button>
+      <button class="ghost" id="again">New run</button>
+    </div>
+    <div id="cover" class="cover"></div>
+    <div id="charts" class="charts"></div>
+    <article id="report" class="report"></article>
+    <details class="noprint">
+      <summary>Raw simulation feed</summary>
+      <div id="rawFeed" class="feed"></div>
+    </details>
+  </section>
+
+  <div id="error" class="error" hidden></div>
+</main>
+
+<footer class="muted small">
+  <div>Results are simulated scenarios from AI-generated personas, not market data. Verify important decisions with real customers.</div>
+  <div class="links"><span>Your API key is sent only to your chosen AI provider through a stateless proxy.</span></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

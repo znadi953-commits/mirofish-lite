@@ -1,4 +1,6 @@
-# MiroFish Lite — LUXE DIGITAL Edition
+# MiroFish Lite — LUXE DIGITAL Edition (SaaS)
+
+Subscription product: **$4/month** (or $29/year). Landing page (`index.html`) sells the offer; `app.html` is the members-only simulator (access code delivered after subscription).
 
 AI market-simulation in your browser. Bring your own (free) Gemini API key:
 1. Open the site, pick provider **Google Gemini (free API key)**
