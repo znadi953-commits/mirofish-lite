@@ -75,12 +75,13 @@ async function loadModels(quiet) {
     const r = await fetch(`${c.baseUrl.replace(/\/+$/, '')}/models`, { headers: { Authorization: `Bearer ${c.apiKey}` } });
     const d = await r.json();
     if (!r.ok) throw new Error(d?.error?.message || d?.error || `HTTP ${r.status}`);
-    const all = (d.data || d.models || []).map((m) => (typeof m === 'string' ? m : m.id)).filter(Boolean);
+    const all = (d.data || d.models || []).map((m) => (typeof m === 'string' ? m : m.id)).filter(Boolean).map((m) => m.replace(/^models\//, ''));
     const skip = /whisper|tts|image|audio|embed|moderation|realtime|transcribe|lyria|banana|robotics|antigravity|deep-research|computer-use|-live|aqa/i;
     const models = all.filter((id) => !skip.test(id)).sort();
     const list = $('modelList'); list.replaceChildren(...models.map((m) => new Option(m, m)));
     const known = models.includes($('model').value.trim());
-    if (!known && models.length) $('model').value = models.find((m) => /gemini-3\.5-flash-lite|gemini-3-flash|gpt-4o-mini|gpt-oss-120b|llama-3\.3-70b|deepseek-chat/.test(m)) || models[0];
+    const preferred = ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3-flash-preview', 'gpt-4o-mini', 'gpt-oss-120b', 'llama-3.3-70b', 'deepseek-chat'];
+    if (!known && models.length) $('model').value = preferred.map((p) => models.find((m) => m.includes(p))).find(Boolean) || models[0];
     out.className = 'small ok'; out.textContent = `${models.length} models available to your key. Using ${$('model').value}.`;
   } catch (e) { out.className = 'small err'; out.textContent = `Could not list models: ${e.message}`; }
 }
