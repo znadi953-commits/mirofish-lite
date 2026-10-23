@@ -400,9 +400,11 @@ $('run').addEventListener('click', async () => {
   const calibration = calibrationFor(productKey);
   const past = calibration ? `\n\nPAST RUNS FOR THIS PRODUCT: simulated results have been ${calibration.ratio.toFixed(2)} times the real results on average (${calibration.n} comparisons).` : '';
   const docs = totalDocs() + (evidence ? `\n\nREAL-WORLD EVIDENCE SUPPLIED BY THE USER (treat as facts):\n${evidence}` : '') + past;
+  if (window.mflAccess && !window.mflAccess.canRun()) return;
   if (!c.baseUrl || !c.apiKey || !c.model) return showError('Step 1: base URL, model and API key are all required.');
   if (docs.length < 80) return showError('Step 2: add your product documents (at least a short description).');
   persistSettings();
+  if (window.mflAccess) window.mflAccess.countRun();
 
   const params = paramsNow();
   const totalCalls = estimateCalls(params);

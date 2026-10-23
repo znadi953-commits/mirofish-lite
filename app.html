@@ -16,40 +16,98 @@
 </head>
 <body>
 <div id="gate" style="position:fixed;inset:0;z-index:9999;background:rgba(11,11,15,.97);display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif;">
-  <div style="background:#121218;border:1px solid rgba(212,175,55,.3);border-radius:18px;padding:38px 32px;max-width:400px;width:calc(100% - 40px);text-align:center;">
-    <div style="font-size:34px;margin-bottom:10px">🔒</div>
-    <h2 style="color:#f0ead6;font-size:21px;margin-bottom:8px">Espace membres</h2>
-    <p style="color:#9d9989;font-size:14px;margin-bottom:22px">Entrez votre code d'accès reçu après votre abonnement.</p>
-    <input id="gatePwd" type="password" placeholder="Code d'accès" style="width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(212,175,55,.35);background:#0b0b0f;color:#e8e6df;font-size:15px;outline:none;text-align:center;letter-spacing:1px;">
-    <button id="gateBtn" style="width:100%;margin-top:14px;padding:13px;border-radius:10px;border:0;background:linear-gradient(135deg,#f5d97b,#d4af37);color:#0b0b0f;font-weight:700;font-size:15px;cursor:pointer;">Débloquer l'accès</button>
-    <p id="gateErr" style="color:#e66;font-size:13px;min-height:18px;margin-top:10px"></p>
-    <p style="margin-top:16px;font-size:12.5px"><a href="index.html" style="color:#d4af37;text-decoration:none">← Découvrir l'offre</a> &nbsp;•&nbsp; <span style="color:#77746a">Pas encore membre ?</span></p>
+  <div style="background:#121218;border:1px solid rgba(212,175,55,.3);border-radius:18px;padding:38px 32px;max-width:420px;width:calc(100% - 40px);text-align:center;">
+    <!-- TRIAL SIGNUP -->
+    <div id="gateTrial">
+      <div style="font-size:34px;margin-bottom:10px">✨</div>
+      <h2 style="color:#f0ead6;font-size:21px;margin-bottom:8px">Essai gratuit — 3 simulations offertes</h2>
+      <p style="color:#9d9989;font-size:14px;margin-bottom:22px">Créez votre accès gratuitement, sans carte bancaire.</p>
+      <input id="trialEmail" type="email" placeholder="Votre e-mail" style="width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(212,175,55,.35);background:#0b0b0f;color:#e8e6df;font-size:15px;outline:none;text-align:center;">
+      <button id="trialBtn" style="width:100%;margin-top:14px;padding:13px;border-radius:10px;border:0;background:linear-gradient(135deg,#f5d97b,#d4af37);color:#0b0b0f;font-weight:700;font-size:15px;cursor:pointer;">Créer mon accès gratuit</button>
+      <p id="gateErr" style="color:#e66;font-size:13px;min-height:18px;margin-top:10px"></p>
+      <p style="margin-top:18px;font-size:13px"><a href="#" id="haveCode" style="color:#d4af37;text-decoration:none">J'ai déjà un code membre</a></p>
+      <p style="margin-top:10px;font-size:12.5px"><a href="index.html" style="color:#77746a;text-decoration:none">← Découvrir l'offre</a></p>
+    </div>
+    <!-- MEMBER CODE -->
+    <div id="gateCode" hidden>
+      <div style="font-size:34px;margin-bottom:10px">🔒</div>
+      <h2 style="color:#f0ead6;font-size:21px;margin-bottom:8px">Espace membres</h2>
+      <p style="color:#9d9989;font-size:14px;margin-bottom:22px">Entrez votre code d'accès reçu après abonnement.</p>
+      <input id="gatePwd" type="password" placeholder="Code d'accès" style="width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(212,175,55,.35);background:#0b0b0f;color:#e8e6df;font-size:15px;outline:none;text-align:center;letter-spacing:1px;">
+      <button id="gateBtn" style="width:100%;margin-top:14px;padding:13px;border-radius:10px;border:0;background:linear-gradient(135deg,#f5d97b,#d4af37);color:#0b0b0f;font-weight:700;font-size:15px;cursor:pointer;">Débloquer l'accès</button>
+      <p id="gateErr2" style="color:#e66;font-size:13px;min-height:18px;margin-top:10px"></p>
+      <p style="margin-top:16px;font-size:12.5px"><a href="#" id="backTrial" style="color:#d4af37;text-decoration:none">← Retour</a></p>
+    </div>
+    <!-- TRIAL EXPIRED -->
+    <div id="gateExpired" hidden>
+      <div style="font-size:34px;margin-bottom:10px">⏳</div>
+      <h2 style="color:#f0ead6;font-size:21px;margin-bottom:8px">Essai terminé</h2>
+      <p style="color:#9d9989;font-size:14px;margin-bottom:22px">Vos 3 simulations gratuites sont utilisées.<br>Passez à l'abonnement pour un accès <b style="color:#d4af37">illimité</b> — dès 4$/mois.</p>
+      <a href="index.html#prix" style="display:block;width:100%;padding:13px;border-radius:10px;background:linear-gradient(135deg,#f5d97b,#d4af37);color:#0b0b0f;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;box-sizing:border-box">S'abonner — dès 4$/mois</a>
+      <p style="margin-top:18px;font-size:13px"><a href="#" id="haveCode2" style="color:#d4af37;text-decoration:none">J'ai déjà un code membre</a></p>
+    </div>
   </div>
 </div>
-<script type="module">
-const HASH = "801cc4651b6ff64b7d8c7d3e469cca242349dba4d7ed98dd5069167d613782d8";
-const gate = document.getElementById('gate');
-async function sha(s) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
-  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
-}
-function unlock() { gate.remove(); document.documentElement.style.overflow = ''; }
-if (localStorage.getItem('mfl_access') === '1') { unlock(); }
-else {
-  document.documentElement.style.overflow = 'hidden';
-  const go = async () => {
-    const btn = document.getElementById('gateBtn');
-    btn.textContent = 'Vérification…'; btn.disabled = true;
-    const v = document.getElementById('gatePwd').value.trim();
-    if ((await sha(v)) === HASH) { localStorage.setItem('mfl_access', '1'); unlock(); }
-    else {
-      document.getElementById('gateErr').textContent = 'Code invalide. Vérifiez votre e-mail de confirmation.';
-      btn.textContent = 'Débloquer l\'accès'; btn.disabled = false;
-    }
+<div id="trialBanner" hidden style="position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:9998;background:rgba(18,18,24,.95);border:1px solid rgba(212,175,55,.4);border-radius:12px;padding:10px 18px;font-family:'Segoe UI',system-ui,sans-serif;font-size:13.5px;color:#e8e6df;display:flex;gap:14px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,.5);white-space:nowrap;">
+  <span>✨ <b id="trialLeft">3</b>/3 simulations d'essai restantes</span>
+  <a href="index.html#prix" style="background:linear-gradient(135deg,#f5d97b,#d4af37);color:#0b0b0f;font-weight:700;padding:6px 14px;border-radius:8px;text-decoration:none">S'abonner</a>
+</div>
+<script>
+(function () {
+  const HASH = "801cc4651b6ff64b7d8c7d3e469cca242349dba4d7ed98dd5069167d613782d8", FREE_RUNS = 3;
+  const KEY_T = 'mfl_trial', KEY_M = 'mfl_access';
+  const $ = (id) => document.getElementById(id);
+  const readTrial = () => { try { return JSON.parse(localStorage.getItem(KEY_T) || 'null'); } catch { return null; } };
+  const showPanel = (p) => { ['gateTrial', 'gateCode', 'gateExpired'].forEach((k) => $(k).hidden = k !== p); $('gate').style.display = 'flex'; };
+  const unlock = () => { $('gate').remove(); document.documentElement.style.overflow = ''; updateBanner(); };
+  const updateBanner = () => {
+    const t = readTrial();
+    if (localStorage.getItem(KEY_M) === '1' || !t) { $('trialBanner') && ($('trialBanner').hidden = true); return; }
+    const left = Math.max(0, FREE_RUNS - (t.runs || 0));
+    $('trialLeft').textContent = left;
+    $('trialBanner').hidden = false;
   };
-  document.getElementById('gateBtn').addEventListener('click', go);
-  document.getElementById('gatePwd').addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
-}
+  window.mflAccess = {
+    mode: localStorage.getItem(KEY_M) === '1' ? 'member' : (readTrial() ? 'trial' : 'none'),
+    canRun() {
+      if (this.mode === 'member') return true;
+      const t = readTrial();
+      if (this.mode === 'trial' && t && (t.runs || 0) < FREE_RUNS) return true;
+      document.documentElement.style.overflow = 'hidden';
+      showPanel(this.mode === 'trial' ? 'gateExpired' : 'gateTrial');
+      return false;
+    },
+    countRun() {
+      if (this.mode !== 'trial') return;
+      const t = readTrial(); if (!t) return;
+      t.runs = (t.runs || 0) + 1; localStorage.setItem(KEY_T, JSON.stringify(t)); updateBanner();
+    },
+  };
+  const sha = async (s) => {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+  };
+  if (localStorage.getItem(KEY_M) === '1' || (readTrial() && (readTrial().runs || 0) < FREE_RUNS)) { unlock(); return; }
+  document.documentElement.style.overflow = 'hidden';
+  if (readTrial()) showPanel('gateExpired'); else showPanel('gateTrial');
+  $('trialBtn').addEventListener('click', () => {
+    const v = $('trialEmail').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { $('gateErr').textContent = 'Entrez un e-mail valide.'; return; }
+    localStorage.setItem(KEY_T, JSON.stringify({ email: v, runs: 0, started: Date.now() }));
+    window.mflAccess.mode = 'trial'; unlock();
+  });
+  const toCode = () => showPanel('gateCode');
+  $('haveCode').addEventListener('click', (e) => { e.preventDefault(); toCode(); });
+  $('haveCode2').addEventListener('click', (e) => { e.preventDefault(); toCode(); });
+  $('backTrial').addEventListener('click', (e) => { e.preventDefault(); showPanel(readTrial() ? 'gateExpired' : 'gateTrial'); });
+  $('gateBtn').addEventListener('click', async () => {
+    const btn = $('gateBtn'); btn.textContent = 'Vérification…'; btn.disabled = true;
+    const v = $('gatePwd').value.trim();
+    if ((await sha(v)) === HASH) { localStorage.setItem(KEY_M, '1'); window.mflAccess.mode = 'member'; unlock(); }
+    else { $('gateErr2').textContent = 'Code invalide. Vérifiez votre e-mail de confirmation.'; btn.textContent = "Débloquer l'accès"; btn.disabled = false; }
+  });
+  $('gatePwd').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('gateBtn').click(); });
+})();
 </script>
 
 <header class="top">
